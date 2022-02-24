@@ -1,26 +1,21 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kartal/kartal.dart';
-import 'package:todo_app/models/todo_model.dart';
+import 'package:todo_app/providers/all_providers.dart';
 import 'package:todo_app/widgets/text_field_widget.dart';
 import 'package:todo_app/widgets/title_widget.dart';
 import 'package:todo_app/widgets/todo_list_item_widget.dart';
-import 'package:uuid/uuid.dart';
 
 import 'widgets/toolbar_widget.dart';
 
-class TodoApp extends StatelessWidget {
-  TodoApp({Key? key}) : super(key: key);
-
-  List<TodoModel> allTodos = [
-    TodoModel(id: const Uuid().v4(), description: 'Spora Git'),
-    TodoModel(id: const Uuid().v4(), description: 'Alışverişe yap'),
-    TodoModel(id: const Uuid().v4(), description: 'Ders çalış'),
-  ];
+class TodoApp extends ConsumerWidget {
+  const TodoApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    var allTodos = ref.watch(todoListProvider);
     return Scaffold(
       body: ListView(
         padding: EdgeInsets.symmetric(
@@ -36,8 +31,10 @@ class TodoApp extends StatelessWidget {
           for (var i = 0; i < allTodos.length; i++)
             Dismissible(
                 key: ValueKey(allTodos[i].id),
-                onDismissed: (_) {},
-                child: TodoListItemWidget(todoModel: allTodos[i])),
+                onDismissed: (_) {
+                  ref.read(todoListProvider.notifier).remove(allTodos[i]);
+                },
+                child: TodoListItemWidget(item: allTodos[i])),
         ],
       ),
     );

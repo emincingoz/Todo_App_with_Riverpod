@@ -1,5 +1,7 @@
 // ignore_for_file: must_be_immutable, type_init_formals
 
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_app/constants/app_colors.dart';
@@ -80,7 +82,13 @@ class _TodoListItemWidgetState extends ConsumerState<TodoListItemWidget> {
                         borderSide: BorderSide(color: AppColors.textColor))),
                 cursorColor: AppColors.textColor,
               )
-            : Text(currentTodoItem.description),
+            : Text(
+                currentTodoItem.description,
+                style: TextStyle(
+                    decoration: currentTodoItem.completed == true
+                        ? TextDecoration.lineThrough
+                        : null),
+              ),
       ),
     );
   }

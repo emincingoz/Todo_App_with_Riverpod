@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,7 +11,18 @@ Future<void> main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(TodoModelAdapter());
   await Hive.openBox<TodoModel>('todos');
-  runApp(const ProviderScope(child: MyApp()));
+
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+
+  runApp(
+    EasyLocalization(
+        supportedLocales: const [Locale('en', 'US'), Locale('tr', 'TR')],
+        path:
+            'assets/translations', // <-- change the path of the translation files
+        fallbackLocale: const Locale('en', 'US'),
+        child: const ProviderScope(child: MyApp())),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -19,6 +31,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.deviceLocale,
         theme: ThemeData(
             checkboxTheme: CheckboxThemeData(
           checkColor: MaterialStateProperty.all(Colors.white),

@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -42,7 +43,7 @@ class TodoApp extends ConsumerWidget {
             allTodos.isEmpty
                 ? Center(
                     heightFactor: context.lowValue * 3,
-                    child: const Text('Tamamlanacak görev yok'))
+                    child: const Text('list_item_text').tr())
                 : const SizedBox(),
             for (var i = 0; i < allTodos.length; i++)
               DismissibleTodos(todo: allTodos[i]),

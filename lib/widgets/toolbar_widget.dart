@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_app/constants/app_colors.dart';
@@ -35,7 +36,10 @@ class ToolBarWidget extends ConsumerWidget {
             // gerçekleşen değişiklik algılanamaz.
             // Bu yüzden .onCompletedCount() methodunda yapılan işlem burada benzer şekilde yapılıp Text widgetına verilir.
             //ref.watch(todoListProvider.notifier).onCompletedTodoCount().toString()
-            onCompletedTodoCount.toString() + ' görev bekliyor',
+            onCompletedTodoCount == 0
+                ? 'toolbar_no_todo'.tr()
+                : onCompletedTodoCount.toString() +
+                    'toolbar_remaining_todos'.tr(),
             overflow: TextOverflow.ellipsis,
           ),
         ),
@@ -47,7 +51,7 @@ class ToolBarWidget extends ConsumerWidget {
               onPressed: () {
                 ref.read(todoListFilter.notifier).state = TodoListFilter.all;
               },
-              child: const Text('All')),
+              child: const Text('toolbar_all_todos').tr()),
         ),
         Tooltip(
           message: 'Only Uncompleted Todos',
@@ -57,7 +61,7 @@ class ToolBarWidget extends ConsumerWidget {
               onPressed: () {
                 ref.read(todoListFilter.notifier).state = TodoListFilter.active;
               },
-              child: const Text('Active')),
+              child: const Text('toolbar_active_todos').tr()),
         ),
         Tooltip(
           message: 'Only Completed Todos',
@@ -68,7 +72,7 @@ class ToolBarWidget extends ConsumerWidget {
                 ref.read(todoListFilter.notifier).state =
                     TodoListFilter.completed;
               },
-              child: const Text('Completed')),
+              child: const Text('toolbar_completed_todos').tr()),
         ),
       ],
     );

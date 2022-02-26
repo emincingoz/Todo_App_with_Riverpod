@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_app/constants/app_colors.dart';
@@ -13,12 +14,12 @@ class TextFieldWidget extends StatelessWidget {
     return Consumer(
       builder: (context, ref, child) {
         return TextField(
-          decoration: const InputDecoration(
-              labelText: 'Neler yapacaksın bugün ?',
-              labelStyle: TextStyle(color: Colors.black87),
-              border: UnderlineInputBorder(
+          decoration: InputDecoration(
+              labelText: "textfield_text".tr(),
+              labelStyle: const TextStyle(color: Colors.black87),
+              border: const UnderlineInputBorder(
                   borderSide: BorderSide(color: AppColors.textColor)),
-              focusedBorder: UnderlineInputBorder(
+              focusedBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(color: AppColors.textColor))),
           cursorColor: AppColors.textColor,
           controller: todoController,

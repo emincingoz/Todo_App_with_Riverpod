@@ -1,0 +1,9 @@
+{
+    "textfield_text": "Let's add a task",
+    "toolbar_remaining_todos": " tasks await",
+    "toolbar_no_todo": "No task",
+    "toolbar_all_todos": "All",
+    "toolbar_active_todos": "Active",
+    "toolbar_completed_todos": "Completed",
+    "list_item_text": "No tasks to complete"
+}

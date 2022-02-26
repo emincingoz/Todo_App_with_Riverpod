@@ -9,10 +9,11 @@ class ToolBarWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     //
     // ref.watch(todoListProvider.notifier).onCompletedTodoCount() methodunda değişiklik algılanamadığı için oluşturuldu
-    int onCompletedTodoCount = ref
+    /*int onCompletedTodoCount = ref
         .watch(todoListProvider)
         .where((element) => element.completed == false)
-        .length;
+        .length;*/
+    final onCompletedTodoCount = ref.watch(unCompletedTodoCount);
 
     return Row(
       //

@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todo_app/constants/app_colors.dart';
 import 'package:todo_app/models/todo_model.dart';
 import 'package:todo_app/providers/all_providers.dart';
 
@@ -75,6 +76,12 @@ class _TodoListItemWidgetState extends ConsumerState<TodoListItemWidget> {
             ? TextField(
                 controller: _textController,
                 focusNode: _textFocusNode,
+                decoration: const InputDecoration(
+                    border: UnderlineInputBorder(
+                        borderSide: BorderSide(color: AppColors.textColor)),
+                    focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: AppColors.textColor))),
+                cursorColor: AppColors.textColor,
               )
             : Text(currentTodoItem.description),
       ),

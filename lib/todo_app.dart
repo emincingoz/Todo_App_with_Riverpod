@@ -3,7 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kartal/kartal.dart';
+import 'package:todo_app/constants/app_colors.dart';
 import 'package:todo_app/providers/all_providers.dart';
+import 'package:todo_app/widgets/dismissible_todos_widget.dart';
 import 'package:todo_app/widgets/text_field_widget.dart';
 import 'package:todo_app/widgets/title_widget.dart';
 import 'package:todo_app/widgets/todo_list_item_widget.dart';
@@ -15,8 +17,9 @@ class TodoApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var allTodos = ref.watch(todoListProvider);
+    var allTodos = ref.watch(filteredTodoList);
     return Scaffold(
+      backgroundColor: AppColors.backgroundColor,
       body: ListView(
         padding: EdgeInsets.symmetric(
           horizontal: context.mediumValue,
@@ -27,25 +30,13 @@ class TodoApp extends ConsumerWidget {
           const TitleWidget(),
           TextFieldWidget(),
           SizedBox(height: context.mediumValue),
-          const ToolBarWidget(),
+          ToolBarWidget(),
+          allTodos.isEmpty
+              ? const Center(
+                  child: Text('Bu koşullarda herhangi bir görev yok'))
+              : const SizedBox(),
           for (var i = 0; i < allTodos.length; i++)
-            Dismissible(
-              key: ValueKey(allTodos[i].id),
-              onDismissed: (_) {
-                ref.read(todoListProvider.notifier).remove(allTodos[i]);
-              },
-              child: ProviderScope(
-                //
-                // Burada overrides ile ProviderScope içerisindeki child'e provider tanımlandı.
-                // overrides içerisinde override edilen provider, all_providers'de return edecek herhangi bir veriye sahip değildi.
-                // overrides içerisinde, allTodos[i], currentTodo provider'ine atandı.
-                overrides: [
-                  currentTodoProvider.overrideWithValue(allTodos[i]),
-                ],
-                //child: TodoListItemWidget(item: allTodos[i]),
-                child: TodoListItemWidget(),
-              ),
-            ),
+            DismissibleTodos(todo: allTodos[i])
         ],
       ),
     );

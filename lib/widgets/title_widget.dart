@@ -12,7 +12,7 @@ class TitleWidget extends StatelessWidget {
           top: context.mediumValue + (context.lowValue / 2),
           bottom: context.mediumValue),
       child: Text(
-        'todo app',
+        "todo app",
         textAlign: TextAlign.center,
         style: TextStyle(
             color: AppColors.textColor,

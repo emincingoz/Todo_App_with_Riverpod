@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_app/constants/app_colors.dart';
-import 'package:todo_app/models/todo_model.dart';
 import 'package:todo_app/providers/all_providers.dart';
 
 class TodoListItemWidget extends ConsumerStatefulWidget {
@@ -66,8 +65,6 @@ class _TodoListItemWidgetState extends ConsumerState<TodoListItemWidget> {
           });
         },
         leading: Checkbox(
-            //
-            // Kurucu method üzerinden ulaşıldığı için widget.item.completed şeklinde güncellendi
             value: currentTodoItem.completed,
             onChanged: (value) {
               ref.read(todoListProvider.notifier).toogle(currentTodoItem.id);

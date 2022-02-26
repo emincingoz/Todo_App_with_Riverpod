@@ -30,11 +30,22 @@ class TodoApp extends ConsumerWidget {
           const ToolBarWidget(),
           for (var i = 0; i < allTodos.length; i++)
             Dismissible(
-                key: ValueKey(allTodos[i].id),
-                onDismissed: (_) {
-                  ref.read(todoListProvider.notifier).remove(allTodos[i]);
-                },
-                child: TodoListItemWidget(item: allTodos[i])),
+              key: ValueKey(allTodos[i].id),
+              onDismissed: (_) {
+                ref.read(todoListProvider.notifier).remove(allTodos[i]);
+              },
+              child: ProviderScope(
+                //
+                // Burada overrides ile ProviderScope içerisindeki child'e provider tanımlandı.
+                // overrides içerisinde override edilen provider, all_providers'de return edecek herhangi bir veriye sahip değildi.
+                // overrides içerisinde, allTodos[i], currentTodo provider'ine atandı.
+                overrides: [
+                  currentTodoProvider.overrideWithValue(allTodos[i]),
+                ],
+                //child: TodoListItemWidget(item: allTodos[i]),
+                child: TodoListItemWidget(),
+              ),
+            ),
         ],
       ),
     );

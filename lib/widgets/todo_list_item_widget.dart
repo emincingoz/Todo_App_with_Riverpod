@@ -6,8 +6,13 @@ import 'package:todo_app/models/todo_model.dart';
 import 'package:todo_app/providers/all_providers.dart';
 
 class TodoListItemWidget extends ConsumerStatefulWidget {
-  TodoModel item;
-  TodoListItemWidget({Key? key, required TodoModel this.item})
+  //
+  // Buradaki item'dan ve constructor ile verilmesinden daha efektik bir yol olarak yeni bir provider oluşturuldu
+  //
+  //TodoModel item;
+  TodoListItemWidget({Key? key
+      /*required TodoModel this.item*/
+      })
       : super(key: key);
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -38,6 +43,8 @@ class _TodoListItemWidgetState extends ConsumerState<TodoListItemWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final currentTodoItem = ref.watch(currentTodoProvider);
+
     return Focus(
       onFocusChange: (isFocused) {
         if (!isFocused) {
@@ -45,32 +52,31 @@ class _TodoListItemWidgetState extends ConsumerState<TodoListItemWidget> {
             _hasFocus = false;
           });
 
-          ref
-              .read(todoListProvider.notifier)
-              .edit(id: widget.item.id, newDescription: _textController.text);
+          ref.read(todoListProvider.notifier).edit(
+              id: currentTodoItem.id, newDescription: _textController.text);
         }
       },
       child: ListTile(
         onTap: () {
           setState(() {
             _hasFocus = true;
-            _textController.text = widget.item.description;
+            _textController.text = currentTodoItem.description;
             _textFocusNode.requestFocus();
           });
         },
         leading: Checkbox(
             //
             // Kurucu method üzerinden ulaşıldığı için widget.item.completed şeklinde güncellendi
-            value: widget.item.completed,
+            value: currentTodoItem.completed,
             onChanged: (value) {
-              ref.read(todoListProvider.notifier).toogle(widget.item.id);
+              ref.read(todoListProvider.notifier).toogle(currentTodoItem.id);
             }),
         title: _hasFocus
             ? TextField(
                 controller: _textController,
                 focusNode: _textFocusNode,
               )
-            : Text(widget.item.description),
+            : Text(currentTodoItem.description),
       ),
     );
   }

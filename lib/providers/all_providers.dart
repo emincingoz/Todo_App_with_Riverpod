@@ -14,3 +14,17 @@ final todoListProvider =
     TodoModel(id: const Uuid().v4(), description: 'Film izle'),
   ]);
 });
+
+final unCompletedTodoCount = Provider<int>((ref) {
+  final allTodo = ref.watch(todoListProvider);
+  final count = allTodo.where((element) => element.completed == false).length;
+
+  return count;
+});
+
+final currentTodoProvider = Provider<TodoModel>((ref) {
+  //
+  // Burada provider'in ne döndüreceği bilinmiyor.
+  // döndüreceği değer TodoApp widgeti içerisinde override edilerek yazıldı.
+  throw UnimplementedError();
+});

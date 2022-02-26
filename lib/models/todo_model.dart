@@ -10,3 +10,5 @@ class TodoModel {
     this.completed = false,
   });
 }
+
+enum TodoListFilter { all, active, completed }

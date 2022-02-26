@@ -28,3 +28,20 @@ final currentTodoProvider = Provider<TodoModel>((ref) {
   // döndüreceği değer TodoApp widgeti içerisinde override edilerek yazıldı.
   throw UnimplementedError();
 });
+
+final todoListFilter =
+    StateProvider<TodoListFilter>((ref) => TodoListFilter.all);
+
+final filteredTodoList = Provider<List<TodoModel>>((ref) {
+  final filter = ref.watch(todoListFilter);
+  final todoList = ref.watch(todoListProvider);
+
+  switch (filter) {
+    case TodoListFilter.all:
+      return todoList;
+    case TodoListFilter.completed:
+      return todoList.where((element) => element.completed == true).toList();
+    case TodoListFilter.active:
+      return todoList.where((element) => element.completed == false).toList();
+  }
+});
